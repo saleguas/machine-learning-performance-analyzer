@@ -105,4 +105,4 @@ def createAnalyzeProject(paths, split):
 
     externalData.createDataReport(allData, 'analyze')
 
-createPredictionProject(['../data/AMD.csv'], 30)
+# createPredictionProject(['../data/AMD.csv'], 30)

@@ -1,0 +1,12 @@
+stagnant:
+  FOXA
+  AMT
+  WMT
+Volatile:
+  AMD,
+  RMD,
+  ARNC
+Increasing:
+  FB,
+  AMZN,
+  DISCA
