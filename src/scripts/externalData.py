@@ -2,7 +2,7 @@ from datetime import datetime
 import os
 import pandas as pd
 import pandas_datareader.data as web
-
+import quandl
 # Downloads the ticker given
 
 
@@ -45,6 +45,13 @@ def createDataReport(allData, type):
         for sheetName, sheet in allData.getAnalyzeSheets():
             sheet.to_excel(os.path.join(
                 analyzeSheets_path, '{}_analyzed_data.xlsx'.format(sheetName)), index=False)
+
+        if allData.forecastPossible():
+            forecastSheet = allData.generateForecastReport()
+            forecastSheet.to_excel(os.path.join(
+                sheets_path, 'data_forecast_analysis.xlsx'), index=False)
+            forecastSheet.to_csv(os.path.join(
+                sheets_path, 'data_forecast_analysis.csv'), index=False)
 
         analyzeSheet = allData.generateAnalyzeReport()
         analyzeSheet.to_excel(os.path.join(

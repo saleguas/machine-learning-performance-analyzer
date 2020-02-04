@@ -27,7 +27,7 @@ def createModelPrediction(x_train, y_train, x_pred):
     x_train = x_train[:, None]
     early_stop = EarlyStopping(monitor='loss', patience=1, verbose=1)
     model = Sequential()
-    model.add(LSTM(6, input_shape=(1, 1)))
+    model.add(LSTM(50, input_shape=(1, 1)))
     model.add(Dense(1))
     model.compile(loss='mean_squared_error', optimizer='adam')
     model.fit(x_train, y_train, epochs=100, batch_size=16,

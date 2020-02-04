@@ -27,7 +27,7 @@ class DatumHolder:
         sheet['Date'] = dates
         sheet['Predicted Close'] = y_pred
         sheet['Actual Close'] = y_true
-        sheet['relative % error'] = y_true - y_pred
+        sheet['relative % error'] = (y_true - y_pred) / y_pred * 100
         sheet['absolute % error'] = abs(y_true - y_pred) / y_pred * 100
         print(sheet.head())
         datumSheet = Datum(name, sheet)
@@ -64,5 +64,42 @@ class DatumHolder:
         sheet['Average Percent Absolute Error'] = averageAbsError
         return sheet
 
+    def generateForecastReport(self):
+        sheet = pd.DataFrame()
+        names = [datum.name for datum in self.analyzeSheets]
+        oneDayRelError = [datum.data['relative % error'].iloc[0].mean() for datum in self.analyzeSheets]
+        oneWeekRelError = [datum.data['relative % error'].iloc[:7].mean() for datum in self.analyzeSheets]
+        oneMonthRelError = [datum.data['relative % error'].iloc[:30].mean() for datum in self.analyzeSheets]
+        threeMonthRelError = [datum.data['relative % error'].iloc[:90].mean() for datum in self.analyzeSheets]
+        sixMonthRelError = [datum.data['relative % error'].iloc[:180].mean() for datum in self.analyzeSheets]
+        oneDayAbsError = [datum.data['absolute % error'].iloc[0].mean() for datum in self.analyzeSheets]
+        oneWeekAbsError = [datum.data['absolute % error'].iloc[:7].mean() for datum in self.analyzeSheets]
+        oneMonthAbsError = [datum.data['absolute % error'].iloc[:30].mean() for datum in self.analyzeSheets]
+        threeMonthAbsError = [datum.data['absolute % error'].iloc[:90].mean() for datum in self.analyzeSheets]
+        sixMonthAbsError = [datum.data['absolute % error'].iloc[:180].mean() for datum in self.analyzeSheets]
+
+        sheet['Name'] = names
+        
+        sheet['oneDayRelError'] = oneDayRelError
+        sheet['oneDayAbsError'] = oneDayAbsError
+
+        sheet['oneWeekRelError'] = oneWeekRelError
+        sheet['oneWeekAbsError'] = oneWeekAbsError
+
+        sheet['oneMonthRelError'] = oneMonthRelError
+        sheet['oneMonthAbsError'] = oneMonthAbsError
+
+        sheet['threeMonthRelError'] = threeMonthRelError
+        sheet['threeMonthAbsError'] = threeMonthAbsError
+
+        sheet['sixMonthRelError'] = sixMonthRelError
+        sheet['sixMonthAbsError'] = sixMonthAbsError
+
+        return sheet
+
+
     def reportPossible(self):
         return len(self.analyzeSheets) != 0
+
+    def forecastPossible(self):
+        return min([len(datum.data['relative % error']) for datum in self.analyzeSheets])
