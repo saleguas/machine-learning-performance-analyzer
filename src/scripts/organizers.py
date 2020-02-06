@@ -23,11 +23,14 @@ class DatumHolder:
         self.rawSheets.append(datumSheet)
 
     def addAnalyzeSheet(self, name, y_pred, y_true, dates):
+        print(y_pred.shape)
+        print(y_true.shape)
         sheet = pd.DataFrame()
         sheet['Date'] = dates
+        sheet['Days'] = np.arange(1, len(dates)+1)
         sheet['Predicted Close'] = y_pred
         sheet['Actual Close'] = y_true
-        sheet['relative % error'] = (y_true - y_pred) / y_pred * 100
+        sheet['relative % error'] = (sheet['Predicted Close'] - sheet['Actual Close']) / sheet['Predicted Close'] * 100
         sheet['absolute % error'] = abs(y_true - y_pred) / y_pred * 100
         print(sheet.head())
         datumSheet = Datum(name, sheet)
@@ -79,21 +82,21 @@ class DatumHolder:
         sixMonthAbsError = [datum.data['absolute % error'].iloc[:180].mean() for datum in self.analyzeSheets]
 
         sheet['Name'] = names
-        
-        sheet['oneDayRelError'] = oneDayRelError
-        sheet['oneDayAbsError'] = oneDayAbsError
 
-        sheet['oneWeekRelError'] = oneWeekRelError
-        sheet['oneWeekAbsError'] = oneWeekAbsError
+        sheet['1 day Rel'] = oneDayRelError
+        sheet['1 day Abs'] = oneDayAbsError
 
-        sheet['oneMonthRelError'] = oneMonthRelError
-        sheet['oneMonthAbsError'] = oneMonthAbsError
+        sheet['1 week Rel'] = oneWeekRelError
+        sheet['1 week Abs'] = oneWeekAbsError
 
-        sheet['threeMonthRelError'] = threeMonthRelError
-        sheet['threeMonthAbsError'] = threeMonthAbsError
+        sheet['1 month Rel'] = oneMonthRelError
+        sheet['1 month Abs'] = oneMonthAbsError
 
-        sheet['sixMonthRelError'] = sixMonthRelError
-        sheet['sixMonthAbsError'] = sixMonthAbsError
+        sheet['3 month Rel'] = threeMonthRelError
+        sheet['3 month Abs'] = threeMonthAbsError
+
+        sheet['6 month Rel'] = sixMonthRelError
+        sheet['6 month Abs'] = sixMonthAbsError
 
         return sheet
 
