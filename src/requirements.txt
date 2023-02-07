@@ -10,7 +10,7 @@ cffi==1.13.2
 chardet==3.0.4
 colorama==0.4.3
 colored==1.4.2
-cryptography==2.8
+cryptography==39.0.1
 cx-Freeze==6.0
 cycler==0.10.0
 decorator==4.4.1
